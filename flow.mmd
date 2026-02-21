@@ -1,0 +1,8 @@
+stateDiagram-v2
+  [*] --> Draft
+  Draft --> Active: Start session
+  Active --> OutcomeDefined: Define outcome
+  OutcomeDefined --> Closed: Write closing summary + Close
+  OutcomeDefined --> Pending: Mark pending
+  Pending --> Active: Re-open discussion
+  Closed --> [*]

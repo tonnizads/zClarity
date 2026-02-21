@@ -1,0 +1,107 @@
+# zClarity (v0)
+
+**Tagline:** From discussion to decision.
+
+zClarity is a session-driven meeting clarity tool designed to reduce cognitive load and ensure that every meeting produces a defined outcome.
+
+This project is built as a personal QA-focused system-thinking tool and portfolio project.
+
+---
+
+## 🚀 Purpose
+
+Many meetings drift into discussion without clear decisions or defined outputs.
+
+zClarity enforces:
+- A required Objective
+- Structured Discussion capture
+- A defined Outcome before closing
+
+Core Principle:
+
+> Every meeting must produce a defined outcome.
+
+---
+
+## 🧠 How It Works (v0)
+
+State Machine:
+
+Draft → Active → OutcomeDefined → (Pending | Closed)
+
+Pending → Active (reopen)
+
+Key Rules:
+- Cannot start without Objective
+- Cannot close without complete Outcome
+- Cannot close without Closing Summary
+
+---
+
+## 🏗 Tech Stack (v0)
+
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- LocalStorage (no backend)
+
+---
+
+## 💾 Data Storage (Important)
+
+- All data is stored in the browser using LocalStorage.
+- No backend.
+- No authentication.
+- No data leaves your machine.
+
+⚠️ Do NOT store sensitive or confidential meeting information.
+
+If you need secure storage, use a private version or extend this project with a backend.
+
+---
+
+## 📦 Features (v0)
+
+- Create multiple meeting sessions
+- History panel with session selection
+- Structured Intent / Discussion / Outcome sections
+- State enforcement via reducer
+- Auto-save to LocalStorage
+- Delete sessions
+
+---
+
+## 🔒 Security Notes
+
+This repository:
+- Contains no API keys
+- Contains no backend
+- Contains no authentication
+- Stores no remote data
+
+Before publishing as public, ensure:
+- No .env files are committed
+- No sensitive screenshots are included
+- No internal company data exists in commits
+
+---
+
+## 📜 License
+
+See LICENSE file for details.
+
+---
+
+## 🧩 Roadmap (Future Ideas)
+
+- Confirmation modal for delete
+- Lock Closed sessions (read-only mode)
+- Export/Import JSON
+- Backend persistence
+- Team collaboration
+
+---
+
+Built as part of a structured thinking system by Zin.
+
+v0 — Local-first clarity engine.
