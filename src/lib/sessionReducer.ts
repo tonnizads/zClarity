@@ -67,10 +67,11 @@ export function isOutcomeComplete(outcome: Outcome | null): boolean {
 
 /**
  * Check if a session can be closed
- * Requires: outcome complete + closing summary filled
+ * Requires: state = OutcomeDefined + outcome complete + closing summary filled
  */
 export function canClose(session: Session): boolean {
   return (
+    session.state === 'OutcomeDefined' &&
     isOutcomeComplete(session.outcome) &&
     session.closingSummary.trim() !== ''
   )

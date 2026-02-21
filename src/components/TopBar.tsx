@@ -1,6 +1,5 @@
 'use client'
 
-import { Dispatch, SetStateAction } from 'react'
 import { Session } from '@/lib/types'
 import { Locale, messages } from '@/lib/i18n'
 
@@ -11,7 +10,7 @@ interface TopBarProps {
   activeSession: Session | null
   onOpenHistory: () => void
   locale: Locale
-  setLocale: Dispatch<SetStateAction<Locale>>
+  setLocale: (locale: Locale) => void
 }
 
 export default function TopBar({ activeSession, onOpenHistory, locale, setLocale }: TopBarProps) {
@@ -54,18 +53,18 @@ export default function TopBar({ activeSession, onOpenHistory, locale, setLocale
   }
 
   return (
-    <header className="border-b border-gray-200 bg-white px-4 sm:px-6 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+    <header className="sticky top-0 z-30 border-b border-gray-200 bg-white shadow-sm px-4 sm:px-6 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
       {/* Group A - Left: App name + session info + state badge */}
       <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-wrap">
         <h1 className="text-lg sm:text-xl font-semibold text-gray-900 whitespace-nowrap">zClarity</h1>
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-sm text-gray-500 truncate max-w-[140px] sm:max-w-[280px]">
-            {activeSession?.title || activeSession?.objective?.slice(0, 30) || t.noSession}
-          </span>
           <span className="text-xs sm:text-sm text-gray-400 whitespace-nowrap">
             {activeSession
               ? new Date(activeSession.createdAt).toLocaleDateString()
               : new Date().toLocaleDateString()}
+          </span>
+          <span className="text-sm text-gray-500 truncate max-w-[140px] sm:max-w-[280px]">
+            {activeSession?.title || activeSession?.objective?.slice(0, 30) || t.noSession}
           </span>
         </div>
         {/* State Badge */}

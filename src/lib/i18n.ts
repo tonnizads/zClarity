@@ -54,6 +54,10 @@ export const messages = {
     addTopic: 'เพิ่มหัวข้อ',
     topicPlaceholder: 'ชื่อหัวข้อ',
     removeTopic: 'ลบหัวข้อ',
+    openQuestions: 'คำถามที่ยังเปิดอยู่',
+    addQuestionPlaceholder: 'เพิ่มคำถาม...',
+    addQuestion: 'เพิ่ม',
+    notesPlaceholder: 'โน้ต / คำตอบ...',
     
     // WorkingCanvas - Outcome
     outcome: 'ผลลัพธ์ / Outcome',
@@ -129,6 +133,10 @@ export const messages = {
     addTopic: 'Add Topic',
     topicPlaceholder: 'Topic title',
     removeTopic: 'Remove topic',
+    openQuestions: 'Open Questions',
+    addQuestionPlaceholder: 'Add a question...',
+    addQuestion: 'Add',
+    notesPlaceholder: 'Notes / Answers...',
     
     // WorkingCanvas - Outcome
     outcome: 'Outcome',

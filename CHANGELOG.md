@@ -6,6 +6,20 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
+## [0.1.2] - 2026-02-11
+
+### Added
+
+- Sticky TopBar (visible session state while scrolling)
+
+### Changed
+
+- Improved delete dialog animation (fade + scale)
+- Reordered Discussion layout (Open Questions before Notes)
+- Minor UI animation polish
+
+---
+
 ## [0.1.1] - 2026-02-11
 
 ### Added
