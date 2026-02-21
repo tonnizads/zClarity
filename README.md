@@ -1,4 +1,4 @@
-# zClarity (v0)
+# zClarity (v0.1)
 
 **Tagline:** From discussion to decision.
 
@@ -60,7 +60,7 @@ If you need secure storage, use a private version or extend this project with a 
 
 ---
 
-## 📦 Features (v0)
+## 📦 Features (v0.1)
 
 - Create multiple meeting sessions
 - History panel with session selection
@@ -68,6 +68,10 @@ If you need secure storage, use a private version or extend this project with a 
 - State enforcement via reducer
 - Auto-save to LocalStorage
 - Delete sessions
+
+- Thai / English language switch (Thai default)
+- Delete confirmation dialog (with safety warning)
+- Improved visual hierarchy (white cards + soft elevation)
 
 ---
 

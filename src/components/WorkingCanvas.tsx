@@ -3,6 +3,7 @@
 import { Dispatch, useState } from 'react'
 import { Session, Topic, OutcomeType } from '@/lib/types'
 import { AppAction, canStart, canMarkPending, canClose, isOutcomeComplete } from '@/lib/sessionReducer'
+import { Locale, messages } from '@/lib/i18n'
 
 // WorkingCanvas Component - zClarity
 // Main working area with Intent, Discussion, and Outcome sections
@@ -10,16 +11,19 @@ import { AppAction, canStart, canMarkPending, canClose, isOutcomeComplete } from
 interface WorkingCanvasProps {
   activeSession: Session | null
   dispatch: Dispatch<AppAction>
+  locale: Locale
 }
 
-export default function WorkingCanvas({ activeSession, dispatch }: WorkingCanvasProps) {
+export default function WorkingCanvas({ activeSession, dispatch, locale }: WorkingCanvasProps) {
+  const t = messages[locale]
+  
   // Show empty state if no active session
   if (!activeSession) {
     return (
       <main className="flex-1 p-6 overflow-auto flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-500 mb-4">No session selected</p>
-          <p className="text-sm text-gray-400">Click &quot;New Session&quot; to start</p>
+          <p className="text-gray-500 mb-4">{t.noSessionSelected}</p>
+          <p className="text-sm text-gray-400">{t.clickNewSession}</p>
         </div>
       </main>
     )
@@ -36,6 +40,7 @@ export default function WorkingCanvas({ activeSession, dispatch }: WorkingCanvas
         dispatch={dispatch}
         isClosed={isClosed}
         isDraft={isDraft}
+        locale={locale}
       />
 
       {/* Section 2 - Discussion */}
@@ -44,6 +49,7 @@ export default function WorkingCanvas({ activeSession, dispatch }: WorkingCanvas
         dispatch={dispatch}
         isClosed={isClosed}
         isDraft={isDraft}
+        locale={locale}
       />
 
       {/* Section 3 - Outcome & Close */}
@@ -52,6 +58,7 @@ export default function WorkingCanvas({ activeSession, dispatch }: WorkingCanvas
         dispatch={dispatch}
         isClosed={isClosed}
         isDraft={isDraft}
+        locale={locale}
       />
     </main>
   )
@@ -65,22 +72,26 @@ interface SectionProps {
   dispatch: Dispatch<AppAction>
   isClosed: boolean
   isDraft: boolean
+  locale: Locale
 }
 
-function IntentSection({ activeSession, dispatch, isClosed, isDraft }: SectionProps) {
+function IntentSection({ activeSession, dispatch, isClosed, isDraft, locale }: SectionProps) {
+  const t = messages[locale]
+  
   return (
-    <section className="mb-8">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Intent</h2>
-      <div className="space-y-4">
+    <section className="mb-6">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t.intent}</h2>
+        <div className="space-y-4">
         {/* Title (optional) */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Session Title (optional)
+            {t.sessionTitle}
           </label>
           <input
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Give this session a name"
+            placeholder={t.sessionTitlePlaceholder}
             value={activeSession.title}
             onChange={(e) =>
               dispatch({
@@ -95,12 +106,38 @@ function IntentSection({ activeSession, dispatch, isClosed, isDraft }: SectionPr
         {/* Objective */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Objective *
+            {t.objective} *
           </label>
+          
+          {/* Objective Helper - Guided Prompts */}
+          {!isClosed && (
+            <div className="mb-3 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+              <p className="text-xs text-gray-500 mb-1">• {t.objectiveGuide1}</p>
+              <p className="text-xs text-gray-500 mb-2">• {t.objectiveGuide2}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  const template = t.objectiveTemplate
+                  const currentObjective = activeSession.objective.trim()
+                  const newObjective = currentObjective
+                    ? `${currentObjective}\n\n${template}`
+                    : template
+                  dispatch({
+                    type: 'UPDATE_INTENT',
+                    payload: { objective: newObjective },
+                  })
+                }}
+                className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+              >
+                + {t.insertTemplate}
+              </button>
+            </div>
+          )}
+          
           <textarea
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             rows={3}
-            placeholder="What do you want to achieve in this meeting?"
+            placeholder={t.objectivePlaceholder}
             value={activeSession.objective}
             onChange={(e) =>
               dispatch({
@@ -115,7 +152,7 @@ function IntentSection({ activeSession, dispatch, isClosed, isDraft }: SectionPr
         {/* Expected Output Type */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Expected Output Type
+            {t.expectedOutput}
           </label>
           <select
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -128,10 +165,10 @@ function IntentSection({ activeSession, dispatch, isClosed, isDraft }: SectionPr
             }
             disabled={isClosed}
           >
-            <option value="Decision">Decision</option>
-            <option value="Clarification">Clarification</option>
-            <option value="Feasibility">Feasibility</option>
-            <option value="RiskMap">RiskMap</option>
+            <option value="Decision">{t.outputDecision}</option>
+            <option value="Clarification">{t.outputClarification}</option>
+            <option value="Feasibility">{t.outputFeasibility}</option>
+            <option value="RiskMap">{t.outputRiskMap}</option>
           </select>
         </div>
 
@@ -146,9 +183,10 @@ function IntentSection({ activeSession, dispatch, isClosed, isDraft }: SectionPr
                 : 'bg-gray-400 cursor-not-allowed'
             }`}
           >
-            Start Session
+            {t.startSession}
           </button>
         )}
+        </div>
       </div>
     </section>
   )
@@ -157,7 +195,8 @@ function IntentSection({ activeSession, dispatch, isClosed, isDraft }: SectionPr
 // ======================
 // Discussion Section
 // ======================
-function DiscussionSection({ activeSession, dispatch, isClosed, isDraft }: SectionProps) {
+function DiscussionSection({ activeSession, dispatch, isClosed, isDraft, locale }: SectionProps) {
+  const t = messages[locale]
   const [newQuestions, setNewQuestions] = useState<Record<string, string>>({})
 
   const handleAddQuestion = (topicId: string) => {
@@ -173,32 +212,35 @@ function DiscussionSection({ activeSession, dispatch, isClosed, isDraft }: Secti
 
   if (isDraft) {
     return (
-      <section className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Discussion</h2>
-        <div className="p-4 border border-dashed border-gray-300 rounded-lg">
-          <p className="text-sm text-gray-500 italic">Start session to add topics</p>
+      <section className="mb-6">
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t.discussion}</h2>
+          <div className="p-4 border border-dashed border-gray-300 rounded-lg">
+            <p className="text-sm text-gray-500 italic">{t.startSession}</p>
+          </div>
         </div>
       </section>
     )
   }
 
   return (
-    <section className="mb-8">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Discussion</h2>
+    <section className="mb-6">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-gray-900">{t.discussion}</h2>
         {!isClosed && (
           <button
             onClick={() => dispatch({ type: 'ADD_TOPIC' })}
             className="px-3 py-1 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
           >
-            + Add Topic
+            + {t.addTopic}
           </button>
         )}
       </div>
 
       {activeSession.topics.length === 0 ? (
         <div className="p-4 border border-dashed border-gray-300 rounded-lg">
-          <p className="text-sm text-gray-500 italic">No topics yet. Add a topic to start discussion.</p>
+          <p className="text-sm text-gray-500 italic">{t.addTopic}</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -209,6 +251,7 @@ function DiscussionSection({ activeSession, dispatch, isClosed, isDraft }: Secti
               index={index}
               dispatch={dispatch}
               isClosed={isClosed}
+              locale={locale}
               newQuestion={newQuestions[topic.id] || ''}
               onNewQuestionChange={(value) =>
                 setNewQuestions((prev) => ({ ...prev, [topic.id]: value }))
@@ -218,6 +261,7 @@ function DiscussionSection({ activeSession, dispatch, isClosed, isDraft }: Secti
           ))}
         </div>
       )}
+      </div>
     </section>
   )
 }
@@ -230,6 +274,7 @@ interface TopicCardProps {
   index: number
   dispatch: Dispatch<AppAction>
   isClosed: boolean
+  locale: Locale
   newQuestion: string
   onNewQuestionChange: (value: string) => void
   onAddQuestion: () => void
@@ -240,12 +285,15 @@ function TopicCard({
   index,
   dispatch,
   isClosed,
+  locale,
   newQuestion,
   onNewQuestionChange,
   onAddQuestion,
 }: TopicCardProps) {
+  const t = messages[locale]
+  
   return (
-    <div className="p-4 border border-gray-200 rounded-lg bg-white">
+    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
       <div className="flex items-center justify-between mb-3">
         <span className="text-xs font-medium text-gray-500">Topic {index + 1}</span>
         {!isClosed && (
@@ -253,7 +301,7 @@ function TopicCard({
             onClick={() => dispatch({ type: 'REMOVE_TOPIC', payload: { topicId: topic.id } })}
             className="text-xs text-red-500 hover:text-red-700"
           >
-            Remove
+            {t.removeTopic}
           </button>
         )}
       </div>
@@ -262,7 +310,7 @@ function TopicCard({
       <input
         type="text"
         className="w-full px-3 py-2 mb-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        placeholder="Topic title"
+        placeholder={t.topicPlaceholder}
         value={topic.title}
         onChange={(e) =>
           dispatch({
@@ -344,13 +392,17 @@ function TopicCard({
 // ======================
 // Outcome Section
 // ======================
-function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionProps) {
+function OutcomeSection({ activeSession, dispatch, isClosed, isDraft, locale }: SectionProps) {
+  const t = messages[locale]
+  
   if (isDraft) {
     return (
-      <section>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Outcome & Close</h2>
-        <div className="p-4 border border-dashed border-gray-300 rounded-lg">
-          <p className="text-sm text-gray-500 italic">Start session first</p>
+      <section className="mb-6">
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t.outcome}</h2>
+          <div className="p-4 border border-dashed border-gray-300 rounded-lg">
+            <p className="text-sm text-gray-500 italic">{t.startSession}</p>
+          </div>
         </div>
       </section>
     )
@@ -366,16 +418,17 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionP
   }
 
   return (
-    <section>
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Outcome & Close</h2>
-      <div className="space-y-4 p-4 border border-gray-200 rounded-lg bg-white">
-        {/* Outcome Type */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Outcome Type *
-          </label>
-          <select
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    <section className="mb-6">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t.outcome}</h2>
+        <div className="space-y-4">
+          {/* Outcome Type */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {t.outcomeType} *
+            </label>
+            <select
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={outcome.type}
             onChange={(e) =>
               dispatch({
@@ -385,21 +438,21 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionP
             }
             disabled={isClosed}
           >
-            <option value="Decision">Decision</option>
-            <option value="NextStep">NextStep</option>
-            <option value="Pending">Pending</option>
+            <option value="Decision">{t.outcomeDecision}</option>
+            <option value="NextStep">{t.outcomeNextStep}</option>
+            <option value="Pending">{t.outcomePending}</option>
           </select>
         </div>
 
         {/* Summary */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Summary *
+            {t.outcomeSummary} *
           </label>
           <textarea
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             rows={2}
-            placeholder="What was decided or concluded?"
+            placeholder={t.outcomeSummaryPlaceholder}
             value={outcome.summary}
             onChange={(e) =>
               dispatch({
@@ -414,12 +467,12 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionP
         {/* Owner */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Owner *
+            {t.owner} *
           </label>
           <input
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Who is responsible?"
+            placeholder={t.ownerPlaceholder}
             value={outcome.owner}
             onChange={(e) =>
               dispatch({
@@ -434,12 +487,12 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionP
         {/* Next Step */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Next Step *
+            {t.nextStep} *
           </label>
           <input
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="What happens next?"
+            placeholder={t.nextStepPlaceholder}
             value={outcome.nextStep}
             onChange={(e) =>
               dispatch({
@@ -454,7 +507,7 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionP
         {/* Due Date (optional) */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Due Date (optional)
+            {t.dueDate}
           </label>
           <input
             type="date"
@@ -470,44 +523,15 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionP
           />
         </div>
 
-        {/* Impact Area (optional) */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Impact Area (optional)
-          </label>
-          <input
-            type="text"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Which area is affected?"
-            value={outcome.impactArea || ''}
-            onChange={(e) =>
-              dispatch({
-                type: 'UPDATE_OUTCOME',
-                payload: { impactArea: e.target.value },
-              })
-            }
-            disabled={isClosed}
-          />
-        </div>
-
-        {/* Outcome Status Indicator */}
-        <div className="pt-2 border-t border-gray-200">
-          <p className={`text-sm ${isOutcomeComplete(activeSession.outcome) ? 'text-green-600' : 'text-gray-500'}`}>
-            {isOutcomeComplete(activeSession.outcome)
-              ? '✓ Outcome complete'
-              : '○ Fill in all required fields (Type, Summary, Owner, Next Step)'}
-          </p>
-        </div>
-
         {/* Closing Summary */}
         <div className="pt-4 border-t border-gray-200">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Closing Summary *
+            {t.closingSummary} *
           </label>
           <input
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="One sentence summary of this session"
+            placeholder={t.closingSummaryPlaceholder}
             value={activeSession.closingSummary}
             onChange={(e) =>
               dispatch({
@@ -532,7 +556,7 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionP
                   : 'text-gray-400 border border-gray-300 cursor-not-allowed'
               }`}
             >
-              Mark Pending
+              {t.markPending}
             </button>
 
             {/* Close Session Button */}
@@ -545,7 +569,7 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionP
                   : 'bg-gray-400 cursor-not-allowed'
               }`}
             >
-              Close Session
+              {t.closeSession}
             </button>
           </div>
         )}
@@ -553,9 +577,10 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft }: SectionP
         {/* Closed State Indicator */}
         {isClosed && (
           <div className="pt-4 border-t border-gray-200">
-            <p className="text-sm text-green-600 font-medium">✓ Session Closed</p>
+            <p className="text-sm text-green-600 font-medium">✓ {t.sessionClosed}</p>
           </div>
         )}
+        </div>
       </div>
     </section>
   )
