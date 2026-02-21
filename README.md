@@ -1,4 +1,4 @@
-# zClarity (v0.1)
+# zClarity (v0.1.1)
 
 **Tagline:** From discussion to decision.
 
@@ -60,18 +60,17 @@ If you need secure storage, use a private version or extend this project with a 
 
 ---
 
-## 📦 Features (v0.1)
+## 📦 Features
 
-- Create multiple meeting sessions
-- History panel with session selection
+- Session-based meeting workflow (Draft → Active → Pending/Closed)
 - Structured Intent / Discussion / Outcome sections
-- State enforcement via reducer
-- Auto-save to LocalStorage
-- Delete sessions
-
+- State enforcement via reducer logic
+- Auto-save with LocalStorage
+- Session history panel (with delete + confirmation)
+- Responsive layout (mobile drawer + FAB)
 - Thai / English language switch (Thai default)
-- Delete confirmation dialog (with safety warning)
-- Improved visual hierarchy (white cards + soft elevation)
+
+See CHANGELOG.md for detailed version history.
 
 ---
 
@@ -98,7 +97,6 @@ See LICENSE file for details.
 
 ## 🧩 Roadmap (Future Ideas)
 
-- Confirmation modal for delete
 - Lock Closed sessions (read-only mode)
 - Export/Import JSON
 - Backend persistence
@@ -106,6 +104,6 @@ See LICENSE file for details.
 
 ---
 
-Built as part of a structured thinking system by Zin.
+Built as part of a structured thinking system by Adisorn Homthong.
 
-v0 — Local-first clarity engine.
+Local-first clarity engine.

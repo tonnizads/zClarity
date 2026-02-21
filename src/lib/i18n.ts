@@ -8,6 +8,7 @@ export const messages = {
     // TopBar
     newSession: 'สร้างเซสชันใหม่',
     noSession: 'ไม่มีเซสชัน',
+    history: 'ประวัติ',
     
     // Session States
     stateDraft: 'แบบร่าง',
@@ -82,6 +83,7 @@ export const messages = {
     // TopBar
     newSession: 'New Session',
     noSession: 'No session',
+    history: 'History',
     
     // Session States
     stateDraft: 'Draft',

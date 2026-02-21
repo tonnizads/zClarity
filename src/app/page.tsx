@@ -25,6 +25,30 @@ export default function Home() {
   // Delete confirmation modal state
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null)
 
+  // Mobile history drawer state (with animation)
+  const [isHistoryMounted, setIsHistoryMounted] = useState(false)
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false)
+
+  // Open drawer with animation
+  const openHistoryDrawer = useCallback(() => {
+    setIsHistoryMounted(true)
+    // Use requestAnimationFrame to ensure DOM is ready before animating
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setIsHistoryOpen(true)
+      })
+    })
+  }, [])
+
+  // Close drawer with animation
+  const closeHistoryDrawer = useCallback(() => {
+    setIsHistoryOpen(false)
+    // Wait for animation to finish before unmounting
+    setTimeout(() => {
+      setIsHistoryMounted(false)
+    }, 200) // Match transition duration
+  }, [])
+
   // Get delete target session info for display
   const deleteTargetSession = useMemo(() => {
     if (!deleteTargetId) return null
@@ -83,29 +107,92 @@ export default function Home() {
       {/* Top Bar */}
       <TopBar
         activeSession={activeSession}
-        onNewSession={() => dispatch({ type: 'NEW_SESSION' })}
+        onOpenHistory={openHistoryDrawer}
         locale={locale}
         setLocale={setLocale}
       />
 
-      {/* Main Content - 2 Column Layout */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar - History Panel */}
-        <HistoryPanel
-          sessions={sessions}
-          activeSessionId={activeSessionId}
-          onSelect={(id: string) => dispatch({ type: 'SELECT_SESSION', payload: { sessionId: id } })}
-          onDelete={requestDelete}
-          locale={locale}
-        />
+      {/* Main Content - Responsive Layout */}
+      {/* Main Content - Responsive Layout */}
+      <div className="flex-1 flex flex-col md:flex-row gap-4 md:gap-6 p-4 md:p-6 pb-24 md:pb-6 overflow-hidden">
+        {/* Left Sidebar - History Panel (hidden on mobile) */}
+        <div className="hidden md:block md:w-72 lg:w-80 shrink-0">
+          <HistoryPanel
+            sessions={sessions}
+            activeSessionId={activeSessionId}
+            onSelect={(id: string) => dispatch({ type: 'SELECT_SESSION', payload: { sessionId: id } })}
+            onDelete={requestDelete}
+            onNewSession={() => dispatch({ type: 'NEW_SESSION' })}
+            locale={locale}
+          />
+        </div>
 
         {/* Main Area - Working Canvas */}
-        <WorkingCanvas
-          activeSession={activeSession}
-          dispatch={dispatch}
-          locale={locale}
-        />
+        <div className="w-full flex-1 min-w-0">
+          <WorkingCanvas
+            activeSession={activeSession}
+            dispatch={dispatch}
+            locale={locale}
+          />
+        </div>
       </div>
+
+      {/* Mobile FAB - New Session Button */}
+      <button
+        onClick={() => dispatch({ type: 'NEW_SESSION' })}
+        className="md:hidden fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white shadow-lg px-4 py-3 rounded-full transition-colors"
+        aria-label={t.newSession}
+      >
+        <span className="text-xl font-bold leading-none">+</span>
+        <span className="text-sm font-medium">{locale === 'th' ? 'สร้าง' : 'New'}</span>
+      </button>
+
+      {/* Mobile History Drawer */}
+      {isHistoryMounted && (
+        <div className="md:hidden fixed inset-0 z-40">
+          {/* Backdrop */}
+          <div
+            className={`absolute inset-0 bg-black/30 transition-opacity duration-200 ease-out ${
+              isHistoryOpen ? 'opacity-100' : 'opacity-0'
+            }`}
+            onClick={closeHistoryDrawer}
+          />
+          {/* Drawer Panel */}
+          <div
+            className={`absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-lg flex flex-col transition-transform duration-200 ease-out ${
+              isHistoryOpen ? 'translate-x-0' : '-translate-x-full'
+            }`}
+          >
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">{t.sessionHistory}</h2>
+              <button
+                onClick={closeHistoryDrawer}
+                className="p-1 text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                <span className="text-2xl leading-none">×</span>
+              </button>
+            </div>
+            {/* Drawer Content */}
+            <div className="flex-1 overflow-y-auto">
+              <HistoryPanel
+                sessions={sessions}
+                activeSessionId={activeSessionId}
+                onSelect={(id: string) => {
+                  dispatch({ type: 'SELECT_SESSION', payload: { sessionId: id } })
+                  closeHistoryDrawer()
+                }}
+                onDelete={requestDelete}
+                onNewSession={() => {
+                  dispatch({ type: 'NEW_SESSION' })
+                  closeHistoryDrawer()
+                }}
+                locale={locale}
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Delete Confirmation Modal */}
       {deleteTargetId && (

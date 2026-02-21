@@ -11,10 +11,11 @@ interface HistoryPanelProps {
   activeSessionId: string | null
   onSelect: (id: string) => void
   onDelete: (id: string) => void
+  onNewSession: () => void
   locale: Locale
 }
 
-export default function HistoryPanel({ sessions, activeSessionId, onSelect, onDelete, locale }: HistoryPanelProps) {
+export default function HistoryPanel({ sessions, activeSessionId, onSelect, onDelete, onNewSession, locale }: HistoryPanelProps) {
   const t = messages[locale]
   // Sort sessions by createdAt (newest first)
   const sortedSessions = [...sessions].sort(
@@ -58,8 +59,16 @@ export default function HistoryPanel({ sessions, activeSessionId, onSelect, onDe
   }
 
   return (
-    <aside className="w-64 h-full border-r border-gray-200 bg-gray-50 p-4 overflow-y-auto">
-      <h2 className="text-sm font-semibold text-gray-700 mb-4">{t.sessionHistory}</h2>
+    <aside className="h-full bg-white md:border md:border-gray-200 md:rounded-xl md:shadow-sm p-4 overflow-y-auto">
+      {/* New Session Button - Desktop Only */}
+      <button
+        onClick={onNewSession}
+        className="hidden md:block w-full px-3 py-2 mb-4 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
+      >
+        {t.newSession}
+      </button>
+      
+      <h2 className="hidden md:block text-sm font-semibold text-gray-700 mb-4">{t.sessionHistory}</h2>
       
       {sortedSessions.length === 0 ? (
         <p className="text-sm text-gray-500 italic">{t.noSessions}</p>
@@ -69,18 +78,18 @@ export default function HistoryPanel({ sessions, activeSessionId, onSelect, onDe
             <button
               key={session.id}
               onClick={() => onSelect(session.id)}
-              className={`w-full text-left p-3 rounded-lg transition-colors ${
+              className={`w-full text-left py-3 px-3 rounded-lg transition-colors ${
                 session.id === activeSessionId
                   ? 'bg-blue-50 border border-blue-200'
                   : 'bg-white border border-gray-200 hover:bg-gray-100'
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-500 min-w-0 truncate">
                   {new Date(session.createdAt).toLocaleDateString()}
                 </span>
-                <div className="flex items-center gap-1">
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${getStateBadgeStyle(session.state)}`}>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${getStateBadgeStyle(session.state)}`}>
                     {getStateLabel(session.state)}
                   </span>
                   <button
@@ -88,14 +97,14 @@ export default function HistoryPanel({ sessions, activeSessionId, onSelect, onDe
                       e.stopPropagation()
                       onDelete(session.id)
                     }}
-                    className="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded p-0.5 transition-colors"
+                    className="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded p-0.5 transition-colors shrink-0"
                     title={t.deleteSession}
                   >
                     <span className="text-sm leading-none">×</span>
                   </button>
                 </div>
               </div>
-              <p className="text-sm font-medium text-gray-900 truncate">
+              <p className="text-sm font-medium text-gray-900 truncate min-w-0">
                 {session.title || session.objective?.slice(0, 40) || t.untitledSession}
               </p>
             </button>

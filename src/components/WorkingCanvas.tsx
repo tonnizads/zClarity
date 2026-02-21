@@ -20,7 +20,7 @@ export default function WorkingCanvas({ activeSession, dispatch, locale }: Worki
   // Show empty state if no active session
   if (!activeSession) {
     return (
-      <main className="flex-1 p-6 overflow-auto flex items-center justify-center">
+      <main className="flex-1 overflow-auto flex items-center justify-center">
         <div className="text-center">
           <p className="text-gray-500 mb-4">{t.noSessionSelected}</p>
           <p className="text-sm text-gray-400">{t.clickNewSession}</p>
@@ -33,7 +33,7 @@ export default function WorkingCanvas({ activeSession, dispatch, locale }: Worki
   const isDraft = activeSession.state === 'Draft'
 
   return (
-    <main className="flex-1 p-6 overflow-auto">
+    <main className="flex-1 overflow-auto">
       {/* Section 1 - Intent */}
       <IntentSection
         activeSession={activeSession}
@@ -79,12 +79,12 @@ function IntentSection({ activeSession, dispatch, isClosed, isDraft, locale }: S
   const t = messages[locale]
   
   return (
-    <section className="mb-6">
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t.intent}</h2>
-        <div className="space-y-4">
+    <section className="mb-4 sm:mb-6">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">{t.intent}</h2>
+        <div className="space-y-3 sm:space-y-4">
         {/* Title (optional) */}
-        <div>
+        <div className="min-w-0">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             {t.sessionTitle}
           </label>
@@ -212,9 +212,9 @@ function DiscussionSection({ activeSession, dispatch, isClosed, isDraft, locale 
 
   if (isDraft) {
     return (
-      <section className="mb-6">
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t.discussion}</h2>
+      <section className="mb-4 sm:mb-6">
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">{t.discussion}</h2>
           <div className="p-4 border border-dashed border-gray-300 rounded-lg">
             <p className="text-sm text-gray-500 italic">{t.startSession}</p>
           </div>
@@ -224,14 +224,14 @@ function DiscussionSection({ activeSession, dispatch, isClosed, isDraft, locale 
   }
 
   return (
-    <section className="mb-6">
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">{t.discussion}</h2>
+    <section className="mb-4 sm:mb-6">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
+          <h2 className="text-base sm:text-lg font-semibold text-gray-900">{t.discussion}</h2>
         {!isClosed && (
           <button
             onClick={() => dispatch({ type: 'ADD_TOPIC' })}
-            className="px-3 py-1 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
+            className="px-3 py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors whitespace-nowrap"
           >
             + {t.addTopic}
           </button>
@@ -293,13 +293,13 @@ function TopicCard({
   const t = messages[locale]
   
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
-      <div className="flex items-center justify-between mb-3">
+    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-3 sm:p-4">
+      <div className="flex items-center justify-between mb-2 sm:mb-3">
         <span className="text-xs font-medium text-gray-500">Topic {index + 1}</span>
         {!isClosed && (
           <button
             onClick={() => dispatch({ type: 'REMOVE_TOPIC', payload: { topicId: topic.id } })}
-            className="text-xs text-red-500 hover:text-red-700"
+            className="text-xs text-red-500 hover:text-red-700 whitespace-nowrap"
           >
             {t.removeTopic}
           </button>
@@ -397,9 +397,9 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft, locale }: 
   
   if (isDraft) {
     return (
-      <section className="mb-6">
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t.outcome}</h2>
+      <section className="mb-4 sm:mb-6">
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6">
+          <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">{t.outcome}</h2>
           <div className="p-4 border border-dashed border-gray-300 rounded-lg">
             <p className="text-sm text-gray-500 italic">{t.startSession}</p>
           </div>
@@ -418,12 +418,12 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft, locale }: 
   }
 
   return (
-    <section className="mb-6">
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t.outcome}</h2>
-        <div className="space-y-4">
+    <section className="mb-4 sm:mb-6">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">{t.outcome}</h2>
+        <div className="space-y-3 sm:space-y-4">
           {/* Outcome Type */}
-          <div>
+          <div className="min-w-0">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               {t.outcomeType} *
             </label>

@@ -5,16 +5,16 @@ import { Session } from '@/lib/types'
 import { Locale, messages } from '@/lib/i18n'
 
 // TopBar Component - zClarity
-// Displays session title, date/time, state badge, and new session button
+// Displays session title, date/time, state badge, and actions
 
 interface TopBarProps {
   activeSession: Session | null
-  onNewSession: () => void
+  onOpenHistory: () => void
   locale: Locale
   setLocale: Dispatch<SetStateAction<Locale>>
 }
 
-export default function TopBar({ activeSession, onNewSession, locale, setLocale }: TopBarProps) {
+export default function TopBar({ activeSession, onOpenHistory, locale, setLocale }: TopBarProps) {
   const t = messages[locale]
   
   // Translate state to current locale
@@ -54,29 +54,36 @@ export default function TopBar({ activeSession, onNewSession, locale, setLocale 
   }
 
   return (
-    <header className="h-16 border-b border-gray-200 bg-white px-6 flex items-center justify-between">
-      {/* Left side - Title and Date */}
-      <div className="flex items-center gap-4">
-        <h1 className="text-xl font-semibold text-gray-900">zClarity</h1>
-        <span className="text-sm text-gray-500">
-          {activeSession?.title || activeSession?.objective?.slice(0, 30) || t.noSession}
-        </span>
-        <span className="text-sm text-gray-400">
-          {activeSession
-            ? new Date(activeSession.createdAt).toLocaleDateString()
-            : new Date().toLocaleDateString()}
-        </span>
-      </div>
-
-      {/* Center - State Badge */}
-      <div className="flex items-center">
-        <span className={`px-3 py-1 text-sm font-medium rounded-full ${getStateBadgeStyle(activeSession?.state || 'Draft')}`}>
+    <header className="border-b border-gray-200 bg-white px-4 sm:px-6 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      {/* Group A - Left: App name + session info + state badge */}
+      <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-wrap">
+        <h1 className="text-lg sm:text-xl font-semibold text-gray-900 whitespace-nowrap">zClarity</h1>
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-sm text-gray-500 truncate max-w-[140px] sm:max-w-[280px]">
+            {activeSession?.title || activeSession?.objective?.slice(0, 30) || t.noSession}
+          </span>
+          <span className="text-xs sm:text-sm text-gray-400 whitespace-nowrap">
+            {activeSession
+              ? new Date(activeSession.createdAt).toLocaleDateString()
+              : new Date().toLocaleDateString()}
+          </span>
+        </div>
+        {/* State Badge */}
+        <span className={`px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full whitespace-nowrap ${getStateBadgeStyle(activeSession?.state || 'Draft')}`}>
           {getStateLabel(activeSession?.state || 'Draft')}
         </span>
       </div>
 
-      {/* Right side - Language Toggle + New Session Button */}
-      <div className="flex items-center gap-3">
+      {/* Group B - Right: History (mobile) + Language Toggle */}
+      <div className="flex items-center gap-2 justify-between w-full sm:w-auto">
+        {/* History Button - Mobile Only */}
+        <button
+          onClick={onOpenHistory}
+          className="md:hidden px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors whitespace-nowrap"
+        >
+          {t.history}
+        </button>
+        
         {/* Language Toggle */}
         <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden text-sm">
           <button
@@ -96,14 +103,6 @@ export default function TopBar({ activeSession, onNewSession, locale, setLocale 
             EN
           </button>
         </div>
-
-        {/* New Session Button */}
-        <button
-          onClick={onNewSession}
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          {t.newSession}
-        </button>
       </div>
     </header>
   )
