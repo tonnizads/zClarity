@@ -6,6 +6,20 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
+## [0.1.3] - 2026-02-22
+
+### Added
+
+- Level 1 reducer unit tests (Vitest) for state machine + validation helpers
+- Level 2 UI integration tests (React Testing Library) for Start + Delete confirmation flows
+
+### Changed
+
+- Added a11y-first aria-label hooks for stable test selectors (cross-language safe)
+- Minimal Vitest setup for UI tests (jsdom + jest-dom matchers)
+
+---
+
 ## [0.1.2] - 2026-02-11
 
 ### Added

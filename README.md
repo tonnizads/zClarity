@@ -1,4 +1,4 @@
-# zClarity (v0.1.1)
+# zClarity (v0.1.3)
 
 **Tagline:** From discussion to decision.
 
@@ -20,6 +20,15 @@ zClarity enforces:
 Core Principle:
 
 > Every meeting must produce a defined outcome.
+
+---
+## Documentation
+
+- Vision & Philosophy → docs/vision/zClarity.md
+- Evaluation Model → docs/vision/eval-model.md
+- Wireframe → docs/design/wireframe.md
+- Test Strategy → docs/quality/test-strategy.md
+- Test Ladder → docs/quality/test-ladder.md
 
 ---
 
@@ -70,7 +79,20 @@ If you need secure storage, use a private version or extend this project with a 
 - Responsive layout (mobile drawer + FAB)
 - Thai / English language switch (Thai default)
 
-See CHANGELOG.md for detailed version history.
+See docs/release/CHANGELOG.md for detailed version history.
+
+---
+
+## ✅ Testing
+
+Run all tests:
+```bash
+npm test
+```
+
+Includes:
+- Level 1: reducer unit tests (Vitest)
+- Level 2: UI integration tests (RTL)
 
 ---
 

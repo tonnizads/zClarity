@@ -63,6 +63,7 @@ export default function HistoryPanel({ sessions, activeSessionId, onSelect, onDe
       {/* New Session Button - Desktop Only */}
       <button
         onClick={onNewSession}
+        aria-label="new-session"
         className="hidden md:block w-full px-3 py-2 mb-4 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
       >
         {t.newSession}
@@ -75,10 +76,18 @@ export default function HistoryPanel({ sessions, activeSessionId, onSelect, onDe
       ) : (
         <div className="space-y-2">
           {sortedSessions.map((session) => (
-            <button
+            <div
               key={session.id}
+              role="button"
+              tabIndex={0}
               onClick={() => onSelect(session.id)}
-              className={`w-full text-left py-3 px-3 rounded-lg transition-colors ${
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onSelect(session.id)
+                }
+              }}
+              className={`w-full text-left py-3 px-3 rounded-lg transition-colors cursor-pointer ${
                 session.id === activeSessionId
                   ? 'bg-blue-50 border border-blue-200'
                   : 'bg-white border border-gray-200 hover:bg-gray-100'
@@ -93,6 +102,7 @@ export default function HistoryPanel({ sessions, activeSessionId, onSelect, onDe
                     {getStateLabel(session.state)}
                   </span>
                   <button
+                    aria-label="delete-session"
                     onClick={(e) => {
                       e.stopPropagation()
                       onDelete(session.id)
@@ -107,7 +117,7 @@ export default function HistoryPanel({ sessions, activeSessionId, onSelect, onDe
               <p className="text-sm font-medium text-gray-900 truncate min-w-0">
                 {session.title || session.objective?.slice(0, 40) || t.untitledSession}
               </p>
-            </button>
+            </div>
           ))}
         </div>
       )}

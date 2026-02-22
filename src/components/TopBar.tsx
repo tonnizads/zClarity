@@ -68,7 +68,10 @@ export default function TopBar({ activeSession, onOpenHistory, locale, setLocale
           </span>
         </div>
         {/* State Badge */}
-        <span className={`px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full whitespace-nowrap ${getStateBadgeStyle(activeSession?.state || 'Draft')}`}>
+        <span
+          aria-label="session-state"
+          className={`px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full whitespace-nowrap ${getStateBadgeStyle(activeSession?.state || 'Draft')}`}
+        >
           {getStateLabel(activeSession?.state || 'Draft')}
         </span>
       </div>

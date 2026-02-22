@@ -135,6 +135,7 @@ function IntentSection({ activeSession, dispatch, isClosed, isDraft, locale }: S
           )}
           
           <textarea
+            aria-label="objective-input"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             rows={3}
             placeholder={t.objectivePlaceholder}
@@ -175,6 +176,7 @@ function IntentSection({ activeSession, dispatch, isClosed, isDraft, locale }: S
         {/* Start Session Button */}
         {isDraft && (
           <button
+            aria-label="start-session"
             onClick={() => dispatch({ type: 'START_SESSION' })}
             disabled={!canStart(activeSession)}
             className={`px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors ${
