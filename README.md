@@ -1,4 +1,4 @@
-# zClarity (v0.1.3)
+# zClarity (v0.1.4)
 
 **Tagline:** From discussion to decision.
 
@@ -90,9 +90,15 @@ Run all tests:
 npm test
 ```
 
+E2E smoke tests:
+```bash
+npm run test:e2e
+```
+
 Includes:
 - Level 1: reducer unit tests (Vitest)
 - Level 2: UI integration tests (RTL)
+- Level 3: E2E smoke (Playwright)
 
 ---
 

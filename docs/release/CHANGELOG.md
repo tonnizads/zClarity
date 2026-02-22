@@ -6,6 +6,15 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
+## [0.1.4] - 2026-02-22
+
+### Added
+
+- Playwright E2E smoke benchmark (production-like: build + start)
+- Smoke coverage: Happy path close, Safe delete confirm, Persistence reload
+
+---
+
 ## [0.1.3] - 2026-02-22
 
 ### Added
@@ -20,7 +29,7 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
-## [0.1.2] - 2026-02-11
+## [0.1.2] - 2026-02-21
 
 ### Added
 
@@ -34,7 +43,7 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
-## [0.1.1] - 2026-02-11
+## [0.1.1] - 2026-02-21
 
 ### Added
 
@@ -52,7 +61,7 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
-## [0.1.0] - 2026-02-11
+## [0.1.0] - 2026-02-21
 
 ### Added
 
@@ -66,7 +75,7 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
-## [0.0.0] - 2026-02-11
+## [0.0.0] - 2026-02-21
 
 ### Added
 

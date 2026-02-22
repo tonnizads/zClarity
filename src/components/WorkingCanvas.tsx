@@ -430,6 +430,7 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft, locale }: 
               {t.outcomeType} *
             </label>
             <select
+              aria-label="outcome-type"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={outcome.type}
             onChange={(e) =>
@@ -452,6 +453,7 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft, locale }: 
             {t.outcomeSummary} *
           </label>
           <textarea
+            aria-label="outcome-summary"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             rows={2}
             placeholder={t.outcomeSummaryPlaceholder}
@@ -472,6 +474,7 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft, locale }: 
             {t.owner} *
           </label>
           <input
+            aria-label="outcome-owner"
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder={t.ownerPlaceholder}
@@ -492,6 +495,7 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft, locale }: 
             {t.nextStep} *
           </label>
           <input
+            aria-label="outcome-next-step"
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder={t.nextStepPlaceholder}
@@ -531,6 +535,7 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft, locale }: 
             {t.closingSummary} *
           </label>
           <input
+            aria-label="closing-summary"
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder={t.closingSummaryPlaceholder}
@@ -563,6 +568,7 @@ function OutcomeSection({ activeSession, dispatch, isClosed, isDraft, locale }: 
 
             {/* Close Session Button */}
             <button
+              aria-label="close-session"
               onClick={() => dispatch({ type: 'CLOSE_SESSION' })}
               disabled={!canClose(activeSession)}
               className={`px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors ${
