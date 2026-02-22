@@ -6,6 +6,16 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
+## [0.1.5] - 2026-02-22
+
+### Changed
+
+- Migrated package manager from npm to pnpm
+- Added pnpm-lock.yaml for reproducible installs
+- Updated docs to use pnpm commands
+
+---
+
 ## [0.1.4] - 2026-02-22
 
 ### Added

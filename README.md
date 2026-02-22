@@ -1,4 +1,4 @@
-# zClarity (v0.1.4)
+# zClarity (v0.1.5)
 
 **Tagline:** From discussion to decision.
 
@@ -85,14 +85,19 @@ See docs/release/CHANGELOG.md for detailed version history.
 
 ## ✅ Testing
 
+Install dependencies:
+```bash
+pnpm install
+```
+
 Run all tests:
 ```bash
-npm test
+pnpm test
 ```
 
 E2E smoke tests:
 ```bash
-npm run test:e2e
+pnpm run test:e2e
 ```
 
 Includes:
