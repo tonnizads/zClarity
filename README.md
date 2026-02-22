@@ -1,4 +1,4 @@
-# zClarity (v0.1.7)
+# zClarity (v0.1.8)
 
 **Tagline:** From discussion to decision.
 
@@ -110,7 +110,9 @@ Includes:
 - Level 2: UI integration tests (RTL)
 - Level 3: E2E smoke (Playwright)
 
-**CI:** PRs to main automatically run `pnpm run build` + `pnpm run test:ci` via GitHub Actions.
+**CI:** GitHub Actions runs automated checks:
+- **Phase 1 (PR):** `build` + `test:ci` (Level 1–2)
+- **Phase 2 (main + daily):** `build` + `test:e2e` (Level 3)
 
 ---
 

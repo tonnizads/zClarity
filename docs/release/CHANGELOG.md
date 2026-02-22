@@ -6,6 +6,15 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
+## [0.1.8] - 2026-02-22
+
+### Added
+
+- CI Phase 2 (Playwright E2E smoke) on push to main
+- Daily scheduled E2E run at 09:00 (UTC+7)
+
+---
+
 ## [0.1.7] - 2026-02-22
 
 ### Added
