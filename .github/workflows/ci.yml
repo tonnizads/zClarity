@@ -1,0 +1,42 @@
+# CI Phase 1: PR Gate
+# Runs fast quality checks on every PR targeting main
+# - Build verification
+# - Level 1+2 tests (Vitest/RTL)
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  phase1-pr:
+    name: Build & Test (L1+L2)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Test (Level 1+2)
+        run: pnpm run test:ci
