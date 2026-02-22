@@ -1,4 +1,4 @@
-# zClarity (v0.1.5)
+# zClarity (v0.1.6)
 
 **Tagline:** From discussion to decision.
 
@@ -90,13 +90,18 @@ Install dependencies:
 pnpm install
 ```
 
-Run all tests:
+Test Ladder (3 levels):
 ```bash
-pnpm test
-```
+# Level 1: Unit tests (reducer/validation)
+pnpm run test:unit
 
-E2E smoke tests:
-```bash
+# Level 2: Integration tests (UI wiring)
+pnpm run test:integration
+
+# Level 1+2 combined (CI)
+pnpm run test:ci
+
+# Level 3: E2E smoke tests (Playwright)
 pnpm run test:e2e
 ```
 

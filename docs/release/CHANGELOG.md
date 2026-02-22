@@ -6,6 +6,15 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
+## [0.1.6] - 2026-02-22
+
+### Changed
+
+- Restructured automated tests into Test Ladder folders (unit/integration/e2e)
+- Added dedicated scripts for each test level (test:unit, test:integration, test:ci)
+
+---
+
 ## [0.1.5] - 2026-02-22
 
 ### Changed
