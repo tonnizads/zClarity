@@ -1,4 +1,4 @@
-# zClarity (v0.1.6)
+# zClarity (v0.1.7)
 
 **Tagline:** From discussion to decision.
 
@@ -109,6 +109,8 @@ Includes:
 - Level 1: reducer unit tests (Vitest)
 - Level 2: UI integration tests (RTL)
 - Level 3: E2E smoke (Playwright)
+
+**CI:** PRs to main automatically run `pnpm run build` + `pnpm run test:ci` via GitHub Actions.
 
 ---
 

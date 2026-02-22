@@ -6,6 +6,14 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
+## [0.1.7] - 2026-02-22
+
+### Added
+
+- GitHub Actions CI Phase 1 (PR gate): build + test:ci (Level 1–2)
+
+---
+
 ## [0.1.6] - 2026-02-22
 
 ### Changed
