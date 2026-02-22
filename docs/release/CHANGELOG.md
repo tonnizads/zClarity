@@ -6,6 +6,15 @@ This project follows a simplified semantic versioning approach.
 
 ---
 
+## [0.1.9] - 2026-02-22
+
+### Changed
+
+- CI: Always upload Playwright HTML report in Phase 2 (pass/fail)
+- CI: Added manual trigger (workflow_dispatch) for Phase 2 E2E
+
+---
+
 ## [0.1.8] - 2026-02-22
 
 ### Added

@@ -2,6 +2,7 @@
 # Runs Playwright E2E on:
 # - Push to main (post-merge verification)
 # - Daily schedule at 09:00 Thailand time (02:00 UTC)
+# - Manual trigger (workflow_dispatch)
 
 name: E2E
 
@@ -11,6 +12,7 @@ on:
   schedule:
     # 09:00 Thailand (UTC+7) = 02:00 UTC
     - cron: "0 2 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -53,7 +55,7 @@ jobs:
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
-        if: failure()
+        if: always()
         with:
           name: playwright-report
           path: playwright-report/

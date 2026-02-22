@@ -1,4 +1,4 @@
-# zClarity (v0.1.8)
+# zClarity (v0.1.9)
 
 **Tagline:** From discussion to decision.
 
@@ -112,7 +112,8 @@ Includes:
 
 **CI:** GitHub Actions runs automated checks:
 - **Phase 1 (PR):** `build` + `test:ci` (Level 1–2)
-- **Phase 2 (main + daily):** `build` + `test:e2e` (Level 3)
+- **Phase 2 (main + daily + manual):** `build` + `test:e2e` (Level 3)
+  - Playwright HTML report uploaded on every run
 
 ---
 
